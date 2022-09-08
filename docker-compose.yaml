@@ -1,0 +1,35 @@
+version: '3'
+services:
+  db:
+    image: 'postgres:latest'
+    ports:
+      - ${PORT}
+    networks:
+      - market-net
+    environment:
+      POSTGRES_USER: ${USERNAME}
+      POSTGRES_PASSWORD: ${PASSWORD}
+      POSTGRES_DB: ${DB}
+    volumes:
+      - market:/var/lib/postgresql/data/
+
+  pgadmin:
+    image: 'dpage/pgadmin4:latest'
+    networks:
+      - market-net
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PG_PASSWORD}
+      PGADMIN_LISTEN_PORT: ${PG_LISTEN}
+    ports:
+      - ${PG_PORT}
+    volumes:
+      - pg_market:/var/lib/pgadmin
+    depends_on:
+      - db
+
+networks:
+  market-net:
+volumes:
+  market:
+  pg_market:
