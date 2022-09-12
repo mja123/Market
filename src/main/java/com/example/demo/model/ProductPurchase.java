@@ -1,13 +1,10 @@
 package com.example.demo.model;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "compras_productos")
-public class ProdcutPurchase {
+public class ProductPurchase {
     @EmbeddedId
     private ProductPurchasePK productPurchaseId;
     @Column(name = "cantidad")
@@ -16,7 +13,13 @@ public class ProdcutPurchase {
     private Boolean state;
     @Column(name = "total")
     private Long total;
+    @ManyToOne
+    @JoinColumn(name = "id_producto", insertable = false, updatable = false)
+    private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "id_compra", updatable = false, insertable = false, nullable = false)
+    private Purchase purchase;
     public ProductPurchasePK getProductPurchaseId() {
         return productPurchaseId;
     }
@@ -47,5 +50,21 @@ public class ProdcutPurchase {
 
     public void setTotal(Long total) {
         this.total = total;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Purchase getPurchase() {
+        return purchase;
+    }
+
+    public void setPurchase(Purchase purchase) {
+        this.purchase = purchase;
     }
 }

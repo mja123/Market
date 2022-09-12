@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "productos")
@@ -11,8 +12,6 @@ public class Product {
     private Long productId;
     @Column(name = "nombre", nullable = false)
     private String name;
-    @Column(name = "id_categorias", nullable = false)
-    private Long categoryId;
     @Column(name = "estado")
     private Boolean state;
     @Column(name = "precio_venta", nullable = false)
@@ -21,6 +20,13 @@ public class Product {
     private String barcode;
     @Column(name = "cantidad_stock", nullable = false)
     private Integer stock;
+
+    @ManyToOne
+    @JoinColumn(name = "id_producto", nullable = false, insertable = false, updatable = false)
+    private Category category;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductPurchase> purchases;
 
 
     public Long getProductId() {
@@ -39,13 +45,6 @@ public class Product {
         this.name = name;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
 
     public Boolean getState() {
         return state;
@@ -78,4 +77,22 @@ public class Product {
     public void setStock(Integer stock) {
         this.stock = stock;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<ProductPurchase> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(List<ProductPurchase> purchases) {
+        this.purchases = purchases;
+    }
+
+
 }

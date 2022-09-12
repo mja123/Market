@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "categorias")
@@ -14,6 +15,9 @@ public class Category {
     private String description;
     @Column(name = "estado", nullable = false)
     private String state;
+
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
 
     public Long getCategoryId() {
         return categoryId;
@@ -37,5 +41,13 @@ public class Category {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

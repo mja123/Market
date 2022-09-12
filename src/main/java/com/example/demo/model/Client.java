@@ -1,9 +1,7 @@
 package com.example.demo.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "clientes")
@@ -21,6 +19,9 @@ public class Client {
     private String email;
     @Column(name = "direccion", nullable = false)
     private String address;
+
+    @OneToMany(mappedBy = "client")
+    private List<Purchase> purchases;
 
     public Long getClientId() {
         return clientId;
@@ -68,5 +69,13 @@ public class Client {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Purchase> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(List<Purchase> purchases) {
+        this.purchases = purchases;
     }
 }

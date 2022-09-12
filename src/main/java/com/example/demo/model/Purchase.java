@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "compras")
@@ -11,8 +12,6 @@ public class Purchase {
     @Column(name = "id_compra")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long purchaseId;
-    @Column(name = "id_cliente")
-    private Long clientId;
     @Column(name = "fecha", nullable = false)
     private LocalDateTime date;
     @Column(name = "comentario", nullable = false)
@@ -21,23 +20,20 @@ public class Purchase {
     private Boolean state;
     @Column(name = "medio_pago", nullable = false)
     private Boolean paymentMethod;
-
     public Long getPurchaseId() {
         return purchaseId;
     }
+    @ManyToOne
+    //Specifying the foreign key
+    @JoinColumn(name = "id_cliente", nullable = false, insertable = false, updatable = false)
+    private Client client;
+
+    @OneToMany(mappedBy = "purchase")
+    private List<ProductPurchase> products;
 
     public void setPurchaseId(Long purchaseId) {
         this.purchaseId = purchaseId;
     }
-
-    public Long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
-    }
-
     public LocalDateTime getDate() {
         return date;
     }
@@ -68,5 +64,20 @@ public class Purchase {
 
     public void setPaymentMethod(Boolean paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public List<ProductPurchase> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductPurchase> products) {
+        this.products = products;
     }
 }
